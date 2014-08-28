@@ -12,11 +12,13 @@ def appendRenderList(l, f, extensions):
     return l
 
 def renderFile(inputPath, outputPath, pandoc, pandocFormatArgs):
+    if args.verbosity >= 1:
+        print(inputPath, " -> ", outputPath)
     os.system(pandoc + " " + pandocFormatArgs + " -o " + outputPath + " " +
             inputPath)
 
 def renderFolder(inputDir, outputDir, recursive, extensions, pandoc,
-        pandocFormatArgs):
+        formatArgs):
 
     renderList = []
     topDirs = []
@@ -34,15 +36,11 @@ def renderFolder(inputDir, outputDir, recursive, extensions, pandoc,
                     renderList = appendRenderList(renderList,
                             os.path.join(root, f), extensions)
 
-    print("Files found:")
-    print(renderList)
-                    #filename, ext = os.path.splitext(os.path.join(root, f))
-                    #relfilename = os.path.relpath(filename+ext,
-                    #        start=inputDir)
-                    #if ext in extensions:
-                    #    renderFile(filename + ext,
-                    #            outputDir + relfilename + ".html", pandoc,
-                    #            pandocFormatArgs)
+    for f in renderList:
+        outF = os.path.splitext(f)[0] + ".html"
+        relPath = os.path.relpath(outF, start=inputDir)
+        outputPath = os.path.join(outputDir, relPath)
+        renderFile(f, outputPath, pandoc, formatArgs)
 
 # parser and cli arguments
 parser = argparse.ArgumentParser(description="render all markdown files in a\
@@ -79,7 +77,7 @@ args.output = args.output or args.path
 args.extensions = args.extensions or [".md", ".mdown", ".mkd", ".markdown"]
 
 # pandoc formatting arguments
-formatArgs = "-r "
+formatArgs = " -r "
 if args.markdown == "markdown":
     formatArgs += "markdown"
 else:
@@ -93,8 +91,8 @@ if args.stylesheet:
 
 # Debug
 if args.verbosity >= 2:
-    print("args.extensions = ", args.extensions)
-    print("formatArgs = " + formatArgs)
+    print("extensions = ", args.extensions)
+    print("command = " + args.pandoc + formatArgs + " -o " + args.path)
 
 renderFolder(
         args.path,
@@ -104,6 +102,5 @@ renderFolder(
         args.pandoc,
         formatArgs
 )
-
 
 print("done")
