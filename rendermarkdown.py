@@ -13,9 +13,12 @@ def appendRenderList(l, f, extensions):
 
 def renderFile(inputPath, outputPath, pandoc, pandocFormatArgs):
     if args.verbosity >= 1:
-        print(inputPath, " -> ", outputPath)
-    os.system(pandoc + " " + pandocFormatArgs + " -o " + outputPath + " " +
-            inputPath)
+        print(inputPath, "->", outputPath)
+    if args.verbosity >= 2:
+        print("\nCommand", pandoc + " " + pandocFormatArgs + " -o \"" +\
+                outputPath + "\" \"" + inputPath +"\"")
+        os.system(pandoc + " " + pandocFormatArgs + " -o \"" + outputPath +
+                "\" \"" + inputPath + "\"")
 
 def renderFolder(inputDir, outputDir, recursive, extensions, pandoc,
         formatArgs):
@@ -28,10 +31,19 @@ def renderFolder(inputDir, outputDir, recursive, extensions, pandoc,
                     os.path.join(inputDir, f), extensions)
         elif os.path.isdir(os.path.join(inputDir, f)):
             topDirs.append(os.path.join(inputDir, f))
+            if not os.path.exists(os.path.join(outputDir, f)):
+                os.mkdir(os.path.join(outputDir, f))
 
     if recursive:
         for d in topDirs:
             for root, dirs, files in os.walk(d):
+                for d in dirs:
+                    dirPath = os.path.join(root, d)
+                    relPath = os.path.relpath(dirPath, start=inputDir)
+                    newDir = os.path.join(outputDir, relPath)
+                    if not os.path.exists(newDir):
+                        os.mkdir(newDir)
+
                 for f in files:
                     renderList = appendRenderList(renderList,
                             os.path.join(root, f), extensions)
@@ -77,7 +89,7 @@ args.output = args.output or args.path
 args.extensions = args.extensions or [".md", ".mdown", ".mkd", ".markdown"]
 
 # pandoc formatting arguments
-formatArgs = " -r "
+formatArgs = "-r "
 if args.markdown == "markdown":
     formatArgs += "markdown"
 else:
@@ -92,7 +104,7 @@ if args.stylesheet:
 # Debug
 if args.verbosity >= 2:
     print("extensions = ", args.extensions)
-    print("command = " + args.pandoc + formatArgs + " -o " + args.path)
+    print("command = " + args.pandoc + " " + formatArgs + " -o " + args.path)
 
 renderFolder(
         args.path,
@@ -102,5 +114,3 @@ renderFolder(
         args.pandoc,
         formatArgs
 )
-
-print("done")
