@@ -3,4 +3,6 @@
 ## v0.1
 
 This is a script that takes all markdown files in a directory, and outputs
-html files. Customizable with cli arguments, run "rendermarkdown.py -h" to see.
+html files. Uses pandoc for rendering.
+
+See wiki for additional documentation.
