@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-"""rendermarkdown.py: Script to render all markdown files in a directory"""
+"""convertmarkdown.py: Script to render all markdown files in a directory"""
 
 import os
 import sys
