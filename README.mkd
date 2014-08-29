@@ -1,4 +1,4 @@
-# rendermarkdown.py
+# convertmarkdown.py
 
 This script takes all markdown files in a given directory, parses them, then
 outputs HTML by using pandoc.
