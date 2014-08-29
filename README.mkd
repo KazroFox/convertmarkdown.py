@@ -1,8 +1,12 @@
 # rendermarkdown.py
 
-## v0.2
+This script takes all markdown files in a given directory, parses them, then
+outputs HTML by using pandoc.
 
-This is a script that takes all markdown files in a directory, and outputs
-html files. Uses pandoc for rendering.
+I use this script as part of a git commit hook, so that when I push markdown
+files up to a correctly configured folder, all the markdown files in the repo
+get converted to HTML and placed in a publicly accessable web folder. My use
+case is for being able to reference my college notes from anywhere, but I would
+imagine it could be useful for other purposes.
 
-See wiki for additional documentation.
+[See the wiki](https://github.com/ausholbrook/rendermarkdown.py/wiki/Documentation) for documentation.
