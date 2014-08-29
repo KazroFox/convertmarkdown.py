@@ -9,4 +9,7 @@ get converted to HTML and placed in a publicly accessable web folder. My use
 case is for being able to reference my college notes from anywhere, but I would
 imagine it could be useful for other purposes.
 
+This script is licensed as GPLv3, but I doubt there's going to be many
+derivative works.
+
 [See the wiki](https://github.com/ausholbrook/rendermarkdown.py/wiki/Documentation) for documentation.
