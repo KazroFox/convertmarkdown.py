@@ -9,6 +9,11 @@ get converted to HTML and placed in a publicly accessable web folder. My use
 case is for being able to reference my college notes from anywhere, but I would
 imagine it could be useful for other purposes.
 
+convertmarkdown.py uses the built-in python path handling, so it should handle
+any paths provided to it regardless of the platform. That being said, it's
+entirely untested on Windows, so I can't guarantee that it works properly. But
+it should. Submit an issue if it doesn't.
+
 This script is licensed as GPLv3, but I doubt there's going to be many
 derivative works.
 
